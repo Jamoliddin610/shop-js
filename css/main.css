@@ -495,6 +495,10 @@ button {
   border-radius: 35px;
   margin-bottom: 30px;
   position: relative;
+  -webkit-animation-name: myanime;
+          animation-name: myanime;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
 }
 
 .carts-items .img-wrapper {
@@ -517,10 +521,10 @@ button {
 }
 
 .scrl {
-  overflow-y: scroll;
+  overflow-x: scroll;
 }
 
-#delate {
+.delate {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -528,5 +532,71 @@ button {
   position: absolute;
   top: 60px;
   right: -5px;
+}
+
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #784bff #ffffff;
+}
+
+*::-webkit-scrollbar {
+  width: 11px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.699);
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+
+@-webkit-keyframes myanime {
+  0% {
+    -webkit-transform: scale(0.1);
+            transform: scale(0.1);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes myanime {
+  0% {
+    -webkit-transform: scale(0.1);
+            transform: scale(0.1);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.counter {
+  width: 40px;
+  height: 40px;
+  font-size: 25px;
+  background-color: green;
+  color: #fff;
+  position: absolute;
+  top: 20px;
+  right: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50%;
 }
 /*# sourceMappingURL=main.css.map */
