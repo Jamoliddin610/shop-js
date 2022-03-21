@@ -33,7 +33,6 @@ let elTotal = document.querySelector('#total');
 let elbox = document.querySelector('.box__carts');
 let elcounter = document.querySelector('#counter')
 
-let totalPrice = 0;
 let total = 0;
 let totalPers = 0;
 
@@ -47,7 +46,7 @@ for (let j = 0; j < arr.length; j++) {
                   ${arr[j].name}
                 </p>
                 <p class="item-price">$${arr[j].price}</p>
-            <button onclick='addItem(${arr[j].id} )' > add to cart</button>
+            <button onclick='Add(${arr[j].id} )' > add to cart</button>
               </div>`
   menulist.appendChild(li)
 
@@ -57,120 +56,117 @@ let newPizzasArr = [];
 function addItem(id) {
   for (let i = 0; i < arr.length; i++) {
     if (id == arr[i].id) {
-      newPizzasArr.push(arr[i]);
-
-      sortItems(newPizzasArr)
-
-
+      return arr[i]
     }
-  }
 
-
-  elbox.classList.add('scrl')
-
-  for (let i = 0; i < newPizzasArr.length; i++) {
-    if (i == newPizzasArr.length - 1) {
-      let li = document.createElement("li");
-      li.className = "carts-items";
-      li.innerHTML = `
-      <div class="img-wrapper"><img src='${newPizzasArr[i].imgUrl}' alt="hotdog"></div>
-              <div class="text-wrapper">
-                <p class="item-name">
-                  ${newPizzasArr[i].name}
-                </p>
-                <p class="item-price">$${newPizzasArr[i].price}</p>
-            <button class="delate" id="${newPizzasArr[i].id}" onclick='removeItem(${i})' >-</button>
-            <span class="counter" id="counter">0</span>
-
-              </div>
-    `;
-      totalPrice += newPizzasArr[i].price;
-      totalPers = totalPrice / 10
-      total = totalPrice + totalPers
-      elSubTotal.textContent = totalPrice.toFixed(2);
-      eltax.textContent = totalPers.toFixed(2)
-      elTotal.textContent = total.toFixed(2);
-      cartList.appendChild(li);
-    }
   }
 }
 
-function sortItems(e) {
-  let b = [];
-  let c = e.length
-  for (let i = 0; i < c; i++) {
-    let k = [];
-    let f = [];
-    for (let j = 0; j < e.length; j++) {
-      if (e[0].id == e[j].id) {
-        k.push(e[j]);
-      } else {
-        f.push(e[j])
-      }
-    }
-    e = f;
-    if (k != "") {
-      b.push(k)
-    }
+function filterArr(e) {
+  if (!newPizzasArr.length) {
+    let newItem = e
+    newItem.count = 1
+    return newPizzasArr.push(newItem)
   }
-  console.log(b);
-  for (let i = 0; i < newPizzasArr.length; i++) {
-    for (let h = 0; h < b.length; h++) {
-      if (newPizzasArr[i].id == b[h][h].id) {
-        elcounter.innerHTML=b[h].length;
-      }else{
-        console.log('not');
-      }
+  for (let k = 0; k < newPizzasArr.length; k++) {
+    if (e.id === newPizzasArr[k].id) {
+      return newPizzasArr[k].count = newPizzasArr[k].count + 1
+
     }
-  } 
+
+  }
+  let newItem = e
+  newItem.count = 1
+
+  newPizzasArr.push(newItem)
 }
-function removeItem(index) {
-  let newArrRemove = [];
 
-  for (let i = 0; i < newPizzasArr.length; i++) {
-    if (index != i) {
-      newArrRemove.push(newPizzasArr[i]);
+function removeItems(e) {
+  let newArr = [];
+  for (let l = 0; l < newPizzasArr.length; l++) {
+    if (e === newPizzasArr[l].id) {
+      if (newPizzasArr[l].count > 1) {
+        let food = newPizzasArr[l]
+        food.count = food.count - 1
+        newArr.push(food)
+      }
+    } else {
+      newArr.push(newPizzasArr[l])
     }
+
   }
+  newPizzasArr = newArr
 
-  newPizzasArr = newArrRemove;
+  cardItems()
+}
+function Add(id) {
+  let searchFood = addItem(id)
 
-  cartList.innerHTML = "";
-  totalPrice = 0;
-  totalPers = 0;
-  total = 0;
+  filterArr(searchFood)
+
+  sortItems();
+}
+
+function sortItems() {
+  cartList.innerHTML = '';
+  let totalPrice = 0;
+
 
   for (let i = 0; i < newPizzasArr.length; i++) {
     let li = document.createElement("li");
     li.className = "carts-items";
     li.innerHTML = `
-      <div class="img-wrapper"><img src='${newPizzasArr[i].imgUrl}' alt="hotdog"></div>
+    <div class="img-wrapper"><img src='${newPizzasArr[i].imgUrl}' alt="hotdog"></div>
               <div class="text-wrapper">
-                <p class="item-name">
-                  ${newPizzasArr[i].name}
-                </p>
-                <p class="item-price">$${newPizzasArr[i].price}</p>
-            <button class="delate" id="${newPizzasArr[i].id}" onclick='removeItem(${i})'>-</button>
+                  <button class="counter">${newPizzasArr[i].count}</button>
+                  <h3 class="item-name">${newPizzasArr[i].name}</h3>
+                  <p class="item-price">$ ${newPizzasArr[i].price}</p>
+                  <div class="btns-box">
+                  <button onclick = "removeItem(${i})"  class="btn-c">Remove</button>
+                  <button   class="btn-c" onclick="addButton(${i})">Add</button>
+                  </div>
               </div>
-    `;
-    totalPrice += newPizzasArr[i].price;
-    totalPers = totalPrice / 10
-    total = totalPrice + totalPers
-    elSubTotal.textContent = totalPrice.toFixed(2);
-    eltax.textContent = totalPers.toFixed(2)
-    elTotal.textContent = total.toFixed(2);
+      `
+
+    totalPrice += newPizzasArr[i].count * newPizzasArr[i].price
     cartList.appendChild(li);
-  }
-  if (newPizzasArr.length == 0) {
-    totalPrice = 0;
-    totalPers = 0;
-    total = 0;
-    elSubTotal.textContent = totalPrice.toFixed(2);
-    eltax.textContent = totalPers.toFixed(2)
-    elTotal.textContent = total.toFixed(2);
 
   }
+
+  totalPers= totalPrice /10 
+  total = totalPrice +  totalPers
+
+  eltax.textContent = totalPers.toFixed(2);
+  elTotal.textContent = total.toFixed(2);
+  elSubTotal.textContent = totalPrice.toFixed(2);
+
+
 }
-console.log(newPizzasArr);
 
 
+
+function addButton(e) {
+  newPizzasArr[e].count = newPizzasArr[e].count + 1
+
+  sortItems()
+}
+
+function removeItem(e) {
+  let searchFood = newPizzasArr[e]
+  if (searchFood.count > 1) {
+    searchFood.count = searchFood.count - 1
+    return sortItems()
+  }
+
+  let newArr = []
+
+  for (let i = 0; i < newPizzasArr.length; i++) {
+    if (newPizzasArr[i].id !== searchFood.id) {
+      newArr.push(newPizzasArr[i])
+    }
+  }
+
+  newPizzasArr = newArr
+
+  sortItems()
+}

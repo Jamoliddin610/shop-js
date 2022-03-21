@@ -384,11 +384,11 @@ body {
   height: 100%;
   padding: 15px 40px;
   position: relative;
+  overflow-y: scroll;
 }
 
 .wrapper.box__menu {
   border-right: solid 5px rgba(0, 0, 0, 0.699);
-  overflow-y: scroll;
 }
 
 .menu-title,
@@ -520,20 +520,6 @@ button {
   height: 100%;
 }
 
-.scrl {
-  overflow-x: scroll;
-}
-
-.delate {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 30px;
-  position: absolute;
-  top: 60px;
-  right: -5px;
-}
-
 * {
   scrollbar-width: auto;
   scrollbar-color: #784bff #ffffff;
@@ -582,12 +568,12 @@ button {
 .counter {
   width: 40px;
   height: 40px;
-  font-size: 25px;
-  background-color: green;
+  font-size: 15px;
+  background-color: #4cca4c;
   color: #fff;
   position: absolute;
-  top: 20px;
-  right: 100px;
+  top: -10px;
+  right: -10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -598,5 +584,22 @@ button {
       -ms-flex-pack: center;
           justify-content: center;
   border-radius: 50%;
+}
+
+.btns-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  gap: 10px;
+}
+
+.btns-box .btn-c {
+  border: solid 1px #242424;
+  font-size: 12px;
+  width: 80px;
+  background-color: #ff5c5c;
 }
 /*# sourceMappingURL=main.css.map */
