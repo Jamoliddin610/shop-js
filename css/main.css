@@ -495,10 +495,6 @@ button {
   border-radius: 35px;
   margin-bottom: 30px;
   position: relative;
-  -webkit-animation-name: myanime;
-          animation-name: myanime;
-  -webkit-animation-duration: 0.5s;
-          animation-duration: 0.5s;
 }
 
 .carts-items .img-wrapper {
@@ -537,32 +533,6 @@ button {
   background-color: rgba(0, 0, 0, 0.699);
   border-radius: 10px;
   border: 3px solid #ffffff;
-}
-
-@-webkit-keyframes myanime {
-  0% {
-    -webkit-transform: scale(0.1);
-            transform: scale(0.1);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes myanime {
-  0% {
-    -webkit-transform: scale(0.1);
-            transform: scale(0.1);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-    opacity: 1;
-  }
 }
 
 .counter {

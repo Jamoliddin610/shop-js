@@ -1,4 +1,4 @@
-let arr = [{
+let pizzaArray = [{
   imgUrl: 'https://us.123rf.com/450wm/robertsre/robertsre1807/robertsre180700016/112647562-hot-dog-with-lettuce-and-fried-onion-on-white.jpg?ver=6',
   name: 'hotdog',
   price: 0.70,
@@ -22,151 +22,103 @@ let arr = [{
   price: 10.78,
   id: 4
 }
-
-
 ]
-let menulist = document.querySelector('.menu-list');
-let cartList = document.querySelector(".carts-list");
-let elSubTotal = document.querySelector("#sub");
-let eltax = document.querySelector('#tax');
-let elTotal = document.querySelector('#total');
-let elbox = document.querySelector('.box__carts');
-let elcounter = document.querySelector('#counter')
-
+const menuList = document.querySelector(".menu-list");
+const cartList = document.querySelector(".carts-list");
+const subtotal = document.querySelector("#sub");
+const taxPrise = document.querySelector("#tax");
+const totalPrise = document.querySelector('#total');
+let newPizzaArray = [];
 let total = 0;
-let totalPers = 0;
+let tax = 0;
+let overal = 0;
 
-
-for (let j = 0; j < arr.length; j++) {
-  let li = document.createElement('li')
+pizzaArray.forEach((item) => {
+  let li = document.createElement("li");
   li.className = 'menu-items';
-  li.innerHTML = `<div class="img-wrapper"><img src='${arr[j].imgUrl}' alt="hotdog"></div>
+  li.innerHTML = `<div class="img-wrapper"><img src='${item.imgUrl}' alt="hotdog"></div>
               <div class="text-wrapper">
                 <p class="item-name">
-                  ${arr[j].name}
+                  ${item.name}
                 </p>
-                <p class="item-price">$${arr[j].price}</p>
-            <button onclick='Add(${arr[j].id} )' > add to cart</button>
+                <p class="item-price">$${item.price}</p>
+            <button onclick='addItemArray(${item.id} )' > add to cart</button>
               </div>`
-  menulist.appendChild(li)
+  menuList.appendChild(li)
 
+});
+
+function addItemArray(listId) {
+  newPizzaArray.push(pizzaArray.filter((item) => item.id === listId)[0]);
+  addCart(newPizzaArray);
 }
 
-let newPizzasArr = [];
-function addItem(id) {
-  for (let i = 0; i < arr.length; i++) {
-    if (id == arr[i].id) {
-      return arr[i]
-    }
+function addCart(cartPizzaArray) {
+  let arr = cartPizzaArray;
+  let topArr = [];
 
-  }
-}
+  arr.forEach((item) => {
+    if (arr != "") topArr.push(arr[0]);
+    arr = arr.filter((el) => {
+      return arr[0].id != el.id;
+    });
+  });
 
-function filterArr(e) {
-  if (!newPizzasArr.length) {
-    let newItem = e
-    newItem.count = 1
-    return newPizzasArr.push(newItem)
-  }
-  for (let k = 0; k < newPizzasArr.length; k++) {
-    if (e.id === newPizzasArr[k].id) {
-      return newPizzasArr[k].count = newPizzasArr[k].count + 1
+  let li = 0;
+  let listArr = [];
+  total = 0;
+  tax = 0;
+  overal = 0
 
-    }
-
-  }
-  let newItem = e
-  newItem.count = 1
-
-  newPizzasArr.push(newItem)
-}
-
-function removeItems(e) {
-  let newArr = [];
-  for (let l = 0; l < newPizzasArr.length; l++) {
-    if (e === newPizzasArr[l].id) {
-      if (newPizzasArr[l].count > 1) {
-        let food = newPizzasArr[l]
-        food.count = food.count - 1
-        newArr.push(food)
-      }
-    } else {
-      newArr.push(newPizzasArr[l])
-    }
-
-  }
-  newPizzasArr = newArr
-
-  cardItems()
-}
-function Add(id) {
-  let searchFood = addItem(id)
-
-  filterArr(searchFood)
-
-  sortItems();
-}
-
-function sortItems() {
-  cartList.innerHTML = '';
-  let totalPrice = 0;
-
-
-  for (let i = 0; i < newPizzasArr.length; i++) {
-    let li = document.createElement("li");
-    li.className = "carts-items";
-    li.innerHTML = `
-    <div class="img-wrapper"><img src='${newPizzasArr[i].imgUrl}' alt="hotdog"></div>
-              <div class="text-wrapper">
-                  <button class="counter">${newPizzasArr[i].count}</button>
-                  <h3 class="item-name">${newPizzasArr[i].name}</h3>
-                  <p class="item-price">$ ${newPizzasArr[i].price}</p>
+  topArr.forEach((item) => {
+    let count = cartPizzaArray.filter((element) => {
+      return element.id == item.id;
+    });
+    li = `
+    <li class="carts-items">
+      <div class="img-wrapper"><img src='${item.imgUrl}' alt="hotdog"></div>
+               <div class="text-wrapper">
+                   <button class="counter">${count.length}</button>
+                   <h3 class="item-name">${item.name}</h3>
+                   <p class="item-price">$ ${item.price}</p>
                   <div class="btns-box">
-                  <button onclick = "removeItem(${i})"  class="btn-c">Remove</button>
-                  <button   class="btn-c" onclick="addButton(${i})">Add</button>
-                  </div>
-              </div>
-      `
+                   <button onclick = "remove(${item.id})" class="btn-c">Remove</button>
+                   <button   class="btn-c" onclick="addItemArray(${item.id})">Add</button>
+                   </div>
+               </div>
+    </li>
+    `;
 
-    totalPrice += newPizzasArr[i].count * newPizzasArr[i].price
-    cartList.appendChild(li);
+    listArr.push(li);
+    cartList.innerHTML = listArr.join("");
+  });
 
-  }
+  cartPizzaArray.forEach((item) => {
+    total += item.price;
+    tax = total/10
+    overal = total + tax
+  });
 
-  totalPers= totalPrice /10 
-  total = totalPrice +  totalPers
-
-  eltax.textContent = totalPers.toFixed(2);
-  elTotal.textContent = total.toFixed(2);
-  elSubTotal.textContent = totalPrice.toFixed(2);
-
-
+  subtotal.innerHTML = total.toFixed(2);
+  taxPrise.innerHTML = tax.toFixed(2)
+  totalPrise.innerHTML = overal.toFixed(2)
 }
 
+function remove(elId) {
+  let count = 0;
+  let a = [];
 
-
-function addButton(e) {
-  newPizzasArr[e].count = newPizzasArr[e].count + 1
-
-  sortItems()
-}
-
-function removeItem(e) {
-  let searchFood = newPizzasArr[e]
-  if (searchFood.count > 1) {
-    searchFood.count = searchFood.count - 1
-    return sortItems()
-  }
-
-  let newArr = []
-
-  for (let i = 0; i < newPizzasArr.length; i++) {
-    if (newPizzasArr[i].id !== searchFood.id) {
-      newArr.push(newPizzasArr[i])
+  newPizzaArray.forEach((element) => {
+    if (element.id === elId && count === 0) {
+      count++;
+    } else {
+      a.push(element);
     }
+  });
+
+  newPizzaArray = a;
+  if (newPizzaArray.length === 0) {
+    cartList.innerHTML = "";
   }
-
-  newPizzasArr = newArr
-
-  sortItems()
+  addCart(newPizzaArray);
 }

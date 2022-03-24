@@ -121,8 +121,6 @@ button{
     border-radius: 35px;
     margin-bottom: 30px;
     position: relative;
-    animation-name: myanime;
-    animation-duration: 0.5s;
 
     .img-wrapper {
         width: 100px;
@@ -163,17 +161,7 @@ button{
     border-radius: 10px;
     border: 3px solid #ffffff;
 }
-@keyframes myanime {
-    0%{
-        transform: scale(0.1);
-        opacity: 0;
-    }
-    100%{
-        transform: scale(1) ;
-        opacity: 1;
 
-    }
-}
 .counter{
     width: 40px;
     height: 40px;
